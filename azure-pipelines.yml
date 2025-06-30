@@ -1,0 +1,43 @@
+# CI Pipeline for FastAPI Application
+trigger:
+  - main # Trigger on pushes to the main branch
+
+pool:
+  vmImage: 'ubuntu-latest' # Use a Microsoft-hosted Ubuntu agent
+
+stages:
+- stage: Build
+  displayName: 'Build and Push Docker Image'
+  jobs:
+  - job: BuildJob
+    displayName: 'Build and Push'
+    steps:
+    - task: Docker@2
+      displayName: 'Build FastAPI Docker Image'
+      inputs:
+        command: 'build'
+        containerRegistry: 'AzureServiceConnection' # Use the name of your service connection from Step 4.3
+        repository: 'fastapi-app' # The name for your Docker image repository in ACR (e.g., 'fastapi-app')
+        dockerfile: 'fastapi-app/Dockerfile' # Path to your Dockerfile within the repo
+        tags: '$(Build.BuildId)' # Tag your image with the Azure DevOps build ID
+
+    - task: Docker@2
+      displayName: 'Push FastAPI Docker Image'
+      inputs:
+        command: 'push'
+        containerRegistry: 'AzureServiceConnection'
+        repository: 'fastapi-app'
+        tags: '$(Build.BuildId)'
+        # Ensure the service connection has 'AcrPush' role on your ACR
+
+    - task: CopyFiles@2
+      displayName: 'Copy Kubernetes Manifests'
+      inputs:
+        contents: 'kubernetes-manifests/*.yaml' # Path to your Kubernetes manifests folder
+        targetFolder: '$(Build.ArtifactStagingDirectory)/manifests' # Copy them to the staging directory
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish Kubernetes Manifests Artifact'
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)/manifests'
+        artifactName: 'kubernetes_manifests' # Name of the artifact to be consumed by CD pipeline
