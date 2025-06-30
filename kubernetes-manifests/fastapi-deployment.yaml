@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: fastapi-app
-        image: <YOUR_ACR_NAME>.azurecr.io/fastapi-app:$(Build.BuildId) # This will be replaced by Azure DevOps
+        image: fastapiacrarunabha.azurecr.io/fastapi-app:$(Build.BuildId) # This will be replaced by Azure DevOps
         ports:
         - containerPort: 8080
         env:

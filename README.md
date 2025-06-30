@@ -1,12 +1,10 @@
 # Azure Kubernetes Service (AKS) Deployment with Azure DevOps CI/CD
 
-This guide demonstrates how to implement automated deployment pipelines in Azure DevOps for Azure Kubernetes Service (AKS) deployments, orchestrating scalable and resilient containerized applications. This process is designed for a rapidly growing e-commerce company that needs to expand its online platform to accommodate increased customer demand and ensure high availability, scalability, and reliability by migrating applications to containers orchestrated by AKS. The company aims to establish a robust CI/CD pipeline using Azure DevOps for automating the deployment of these containerized applications on AKS.
-
 ## Prerequisites
 
 Before you begin, ensure you have the following:
 
-- **Azure DevOps Account:** You need access to an Azure DevOps organization and project.![alt text](image.png)
+a- **Azure DevOps Account:** You need access to an Azure DevOps organization and project.![alt text](screenshots/image.png)
 - **Azure Subscription:** You must have access to Azure resources like AKS and Azure Container Registry (ACR).
 - **Source Code:** A code repository (e.g., Git) for your application is required.
 
@@ -174,6 +172,7 @@ First, set up the necessary infrastructure in Azure using either the Azure Porta
      - **Resource group name:** Enter a unique name (e.g., `FastAPIDeploymentRG`).
      - **Region:** Choose an Azure region closest to you (e.g., `East US`).
    - Click **Review + create** and then **Create**.
+   ![alt text](screenshots/image-1.png)
 
 2. **Create an Azure Container Registry (ACR):**
    - In the Azure Portal, search for "Container Registries" and select it.
@@ -207,34 +206,7 @@ First, set up the necessary infrastructure in Azure using either the Azure Porta
      - **Integrations:**
        - Ensure **Azure Container Registry** is selected and choose your created ACR (e.g., `myfastapicr`) from the dropdown. This step is crucial as it automatically configures your AKS cluster to pull images from your ACR.
      - **Monitoring, Tags, etc.:** Review these tabs and configure as needed.
-   - Click **Review + create** and then **Create**. The deployment of an AKS cluster can take several minutes.
-
-##### Method 2: Azure CLI
-
-Ensure you have the Azure CLI installed and are logged in (`az login`).
-
-1. **Create a Resource Group:**
-   ```bash
-   az group create --name FastAPIDeploymentRG --location eastus # Choose your desired location
-   ```
-
-2. **Create an Azure Container Registry (ACR):**
-   ```bash
-   az acr create --resource-group FastAPIDeploymentRG --name myfastapicr --sku Basic --admin-enabled true # Choose a unique name for myfastapicr
-   ```
-   *Note: `--admin-enabled true` is convenient for initial setup but consider more secure authentication methods for production scenarios.*
-
-3. **Create an Azure Kubernetes Service (AKS) Cluster:**
-   ```bash
-   az aks create \
-     --resource-group FastAPIDeploymentRG \
-     --name fastapi-aks \
-     --node-count 1 \
-     --enable-addons monitoring \
-     --generate-ssh-keys \
-     --attach-acr myfastapicr # This attaches your ACR and configures image pull permissions.
-   ```
-   *This command creates an AKS cluster with one node, enables monitoring, generates SSH keys for node access, and attaches your specified ACR for image pulling.*
+   - Click **Review + create** and then **Create**. The deployment of an AKS cluster can take several minutes.![alt text](screenshots/image-2.png)
 
 #### Step 4.2: Assign Specific Roles
 
