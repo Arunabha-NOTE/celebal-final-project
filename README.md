@@ -6,7 +6,7 @@ This guide demonstrates how to implement automated deployment pipelines in Azure
 
 Before you begin, ensure you have the following:
 
-- **Azure DevOps Account:** You need access to an Azure DevOps organization and project.
+- **Azure DevOps Account:** You need access to an Azure DevOps organization and project.![alt text](image.png)
 - **Azure Subscription:** You must have access to Azure resources like AKS and Azure Container Registry (ACR).
 - **Source Code:** A code repository (e.g., Git) for your application is required.
 
