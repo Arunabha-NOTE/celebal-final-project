@@ -1,5 +1,5 @@
 # Azure Kubernetes Service (AKS) Deployment with Azure DevOps CI/CD
-
+Pipeline will fail because failed to get node qouta on aks
 ## Prerequisites
 
 Before you begin, ensure you have the following:
